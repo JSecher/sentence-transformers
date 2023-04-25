@@ -536,6 +536,8 @@ class SentenceTransformer(nn.Sequential):
         :return:
             a batch of tensors for the model
         """
+        if len(batch) == 1 and isinstance(batch[0], list):
+            batch = batch[0]
         num_texts = len(batch[0].texts)
         texts = [[] for _ in range(num_texts)]
         labels = []
