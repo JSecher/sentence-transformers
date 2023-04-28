@@ -70,6 +70,8 @@ class CrossEncoder():
             self.default_activation_function = nn.Sigmoid() if self.config.num_labels == 1 else nn.Identity()
 
     def smart_batching_collate(self, batch):
+        if len(batch) == 1 and isinstance(batch[0], list):
+             batch = batch[0]
         texts = [[] for _ in range(len(batch[0].texts))]
         labels = []
 
