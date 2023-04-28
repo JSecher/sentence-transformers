@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 class CrossEncoder():
     def __init__(self, model_name:str, num_labels:int = None, max_length:int = None, device:str = None, tokenizer_args:Dict = {},
-                  automodel_args:Dict = {}, default_activation_function = None):
+                  automodel_args:Dict = {}, default_activation_function = None, tokenizer_name_or_path:str = None):
         """
         A CrossEncoder takes exactly two sentences / texts as input and either predicts
         a score or label for this sentence pair. It can for example predict the similarity of the sentence pair
@@ -48,7 +48,8 @@ class CrossEncoder():
             self.config.num_labels = num_labels
 
         self.model = AutoModelForSequenceClassification.from_pretrained(model_name, config=self.config, **automodel_args)
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, **tokenizer_args)
+        # self.tokenizer = AutoTokenizer.from_pretrained(model_name, **tokenizer_args)
+        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name_or_path if tokenizer_name_or_path is not None else model_name, **tokenizer_args)
         self.max_length = max_length
 
         if device is None:
