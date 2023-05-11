@@ -538,6 +538,9 @@ class SentenceTransformer(nn.Sequential):
         """
         if len(batch) == 1 and isinstance(batch[0], list):
             batch = batch[0]
+        elif len(batch) > 1:  
+            # Fix for Multiple negative ranking loss
+            batch = [b[0] for b in batch]
         num_texts = len(batch[0].texts)
         texts = [[] for _ in range(num_texts)]
         labels = []
